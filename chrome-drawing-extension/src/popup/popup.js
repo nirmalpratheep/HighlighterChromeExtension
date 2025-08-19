@@ -25,4 +25,32 @@ document.addEventListener('DOMContentLoaded', function () {
             chrome.tabs.sendMessage(tabs[0].id, { action: 'erase' });
         });
     });
+
+    document.getElementById('highlight').addEventListener('click', () => {
+        chrome.scripting.executeScript({
+            target: { allFrames: true },
+            func: () => alert('Highlight tool selected!')
+        });
+    });
+
+    document.getElementById('draw').addEventListener('click', () => {
+        chrome.scripting.executeScript({
+            target: { allFrames: true },
+            func: () => alert('Draw tool selected!')
+        });
+    });
+
+    document.getElementById('fill').addEventListener('click', () => {
+        chrome.scripting.executeScript({
+            target: { allFrames: true },
+            func: () => alert('Fill tool selected!')
+        });
+    });
+
+    document.getElementById('erase').addEventListener('click', () => {
+        chrome.scripting.executeScript({
+            target: { allFrames: true },
+            func: () => alert('Erase tool selected!')
+        });
+    });
 });

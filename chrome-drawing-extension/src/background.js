@@ -2,7 +2,7 @@
 // It manages events and communicates between different parts of the extension.
 
 chrome.runtime.onInstalled.addListener(() => {
-    console.log("Chrome Drawing Extension installed.");
+    console.log("Drawing and Highlighting Extension installed.");
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
