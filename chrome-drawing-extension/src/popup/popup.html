@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Extension</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <h1>Drawing Tools</h1>
+        <div class="color-picker">
+            <label for="color">Select Color:</label>
+            <input type="color" id="color" value="#000000">
+        </div>
+        <div class="shape-selector">
+            <label for="shape">Select Shape:</label>
+            <select id="shape">
+                <option value="rectangle">Rectangle</option>
+                <option value="circle">Circle</option>
+                <option value="square">Square</option>
+            </select>
+        </div>
+        <button id="draw">Draw</button>
+        <button id="eraser">Eraser</button>
+        <button id="clear">Clear</button>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

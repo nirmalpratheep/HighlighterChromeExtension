@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    cursor: crosshair;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
+.color-picker {
+    display: flex;
+    align-items: center;
+}
+
+.color-picker input[type="color"] {
+    margin-left: 5px;
+}
+
+.shape-selector {
+    margin-left: 20px;
+}
+
+.shape-selector select {
+    padding: 5px;
+}
+
+.eraser-button {
+    margin-left: 20px;
+    padding: 5px 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.eraser-button:hover {
+    background-color: #ff1a1a;
+}
