@@ -90,7 +90,7 @@ if (window.drawingExtension) {
             border-radius: 12px;
             padding: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            z-index: 2147483646;
+            z-index: 2147483648; /* ensure toolbar is above the canvas */
             display: none;
             flex-direction: column;
             gap: 4px;
@@ -282,46 +282,7 @@ if (window.drawingExtension) {
         `;
         closeBtn.addEventListener('click', hideToolbar);
         toolbar.appendChild(closeBtn);
-
-        // Test button for debugging
-        const testBtn = document.createElement('button');
-        testBtn.innerHTML = '🧪';
-        testBtn.title = 'Test Drawing';
-        testBtn.style.cssText = `
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 6px;
-            background: #28a745;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        `;
-        testBtn.addEventListener('click', testDrawing);
-        toolbar.appendChild(testBtn);
-
-        // Debug button for troubleshooting
-        const debugBtn = document.createElement('button');
-        debugBtn.innerHTML = '🐛';
-        debugBtn.title = 'Debug Buttons';
-        debugBtn.style.cssText = `
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 6px;
-            background: #ffc107;
-            color: #333;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        `;
-        debugBtn.addEventListener('click', debugButtons);
-        toolbar.appendChild(debugBtn);
+    // (Removed debug/test buttons to avoid stray UI artifacts)
 
         document.body.appendChild(toolbar);
         console.log('Toolbar created successfully');
@@ -419,9 +380,9 @@ if (window.drawingExtension) {
             toolbar.style.display = 'flex';
             isToolbarVisible = true;
             
-            // Ensure canvas is visible and interactive
+            // Ensure canvas is visible but keep pointer events off so toolbar stays clickable
             canvas.style.display = 'block';
-            canvas.style.pointerEvents = 'auto';
+            canvas.style.pointerEvents = 'none';
             canvas.style.visibility = 'visible';
             
             // Clear any existing content and redraw
@@ -467,7 +428,7 @@ if (window.drawingExtension) {
             isDrawing = true;
             startX = e.clientX;
             startY = e.clientY;
-            
+
             ctx.beginPath();
             ctx.moveTo(startX, startY);
             console.log('Started drawing at:', startX, startY);
@@ -475,6 +436,8 @@ if (window.drawingExtension) {
             isErasing = true;
             eraseAt(e.clientX, e.clientY);
         } else if (['rectangle', 'circle', 'triangle', 'line'].includes(currentTool)) {
+            // Start shape drawing only on mousedown
+            isDrawing = true;
             startX = e.clientX;
             startY = e.clientY;
             console.log('Started shape at:', startX, startY);
@@ -488,8 +451,8 @@ if (window.drawingExtension) {
             ctx.stroke();
         } else if (isErasing) {
             eraseAt(e.clientX, e.clientY);
-        } else if (['rectangle', 'circle', 'triangle', 'line'].includes(currentTool)) {
-            // Preview shape while dragging
+        } else if (isDrawing && ['rectangle', 'circle', 'triangle', 'line'].includes(currentTool)) {
+            // Preview shape while dragging (only when mouse is pressed)
             redrawAll();
             drawShapePreview(startX, startY, e.clientX, e.clientY);
         }
@@ -500,19 +463,21 @@ if (window.drawingExtension) {
         console.log('Mouse up:', currentTool);
         
         if (isDrawing) {
-            isDrawing = false;
+            // Finalize drawing or shape
             if (currentTool === 'highlight') {
                 saveHighlight();
             } else if (currentTool === 'draw') {
                 saveDrawing();
+            } else if (['rectangle', 'circle', 'triangle', 'line'].includes(currentTool)) {
+                drawFinalShape(startX, startY, e.clientX, e.clientY);
+                // Reset start coordinates to avoid accidental extra shapes
+                startX = undefined;
+                startY = undefined;
             }
-            console.log('Finished drawing');
+            isDrawing = false;
+            console.log('Finished drawing/shape');
         } else if (isErasing) {
             isErasing = false;
-        } else if (['rectangle', 'circle', 'triangle', 'line'].includes(currentTool)) {
-            // Finalize shape
-            drawFinalShape(startX, startY, e.clientX, e.clientY);
-            console.log('Finished shape');
         }
     }
 
@@ -828,6 +793,15 @@ if (window.drawingExtension) {
         canvas.style.cursor = cursor;
         console.log('Tool set to:', tool, 'Cursor:', cursor);
         
+        // Enable canvas pointer events for drawing/erasing tools so the canvas receives input.
+        // The toolbar has a higher z-index so it will remain clickable.
+        const drawingTools = ['draw', 'highlight', 'eraser', 'rectangle', 'circle', 'triangle', 'line', 'text'];
+        if (drawingTools.includes(tool)) {
+            canvas.style.pointerEvents = 'auto';
+        } else {
+            canvas.style.pointerEvents = 'none';
+        }
+        
         // Log current state
         console.log('Current tool state:', {
             tool: currentTool,
@@ -841,6 +815,17 @@ if (window.drawingExtension) {
         currentColor = color;
         ctx.strokeStyle = color;
         ctx.fillStyle = color;
+        // Update toolbar color button appearance if present
+        try {
+            const colorBtn = toolbar && toolbar.querySelector('button[title="Color"]');
+            if (colorBtn) {
+                colorBtn.style.background = color;
+                // adjust text color for contrast
+                colorBtn.style.color = '#fff';
+            }
+        } catch (e) {
+            // ignore
+        }
         console.log('Color changed to:', color);
     }
 
@@ -903,10 +888,10 @@ if (window.drawingExtension) {
         console.log('Test drawing completed - you should see a red line and green circle');
     }
 
-    // Message listener for communication with background script
+    // Message listener for communication with popup/background
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         try {
-            console.log('Received message:', request.action);
+            console.log('Received message:', request.action, request);
             switch (request.action) {
                 case 'ping':
                     sendResponse({ success: true, message: 'Content script is running' });
@@ -923,6 +908,52 @@ if (window.drawingExtension) {
                     testDrawing();
                     sendResponse({ success: true });
                     break;
+                case 'setTool':
+                    if (request.tool) {
+                        // Ensure toolbar is visible when changing tool from popup
+                        if (!isToolbarVisible) showToolbar();
+                        selectTool(request.tool);
+                        sendResponse({ success: true });
+                    } else {
+                        sendResponse({ success: false, error: 'Missing tool' });
+                    }
+                    break;
+                case 'setColor':
+                    if (request.color) {
+                        changeColor(request.color);
+                        sendResponse({ success: true });
+                    } else {
+                        sendResponse({ success: false, error: 'Missing color' });
+                    }
+                    break;
+                case 'setSize':
+                    if (typeof request.size !== 'undefined') {
+                        changeSize(request.size);
+                        sendResponse({ success: true });
+                    } else {
+                        sendResponse({ success: false, error: 'Missing size' });
+                    }
+                    break;
+                case 'setFill':
+                    if (typeof request.fill !== 'undefined') {
+                        isFilled = !!request.fill;
+                        // Update fill button appearance if toolbar exists
+                        const fillBtn = toolbar && toolbar.querySelector('button[title*="Fill"]');
+                        if (fillBtn) {
+                            fillBtn.innerHTML = isFilled ? '\ud83d\udd32' : '\u2b1c';
+                            fillBtn.title = `Fill: ${isFilled ? 'On' : 'Off'}`;
+                            fillBtn.style.background = isFilled ? '#667eea' : 'white';
+                            fillBtn.style.color = isFilled ? 'white' : '#333';
+                        }
+                        sendResponse({ success: true });
+                    } else {
+                        sendResponse({ success: false, error: 'Missing fill value' });
+                    }
+                    break;
+                case 'clear':
+                    clearAll();
+                    sendResponse({ success: true });
+                    break;
                 default:
                     sendResponse({ success: false, error: 'Unknown action' });
             }
@@ -930,6 +961,9 @@ if (window.drawingExtension) {
             console.error('Error handling message:', error);
             sendResponse({ success: false, error: error.message });
         }
+
+        // Return true to indicate we'll respond synchronously (keeps behavior stable)
+        return true;
     });
 
     // Initialize when DOM is ready
