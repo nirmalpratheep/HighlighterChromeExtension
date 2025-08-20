@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .highlight-text {
+            background-color: #ffff99;
+            padding: 5px;
+        }
+        .important {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            border-left: 4px solid #2196f3;
+        }
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 18px;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .feature-item {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        .simple-usage {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .simple-usage h2 {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+        }
+        .simple-usage p {
+            margin: 0;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Extension Test Page</h1>
+    
+    <div class="simple-usage">
+        <h2>🎯 Super Simple Usage!</h2>
+        <p>Just click the small extension icon in your bookmark bar to start drawing!</p>
+    </div>
+
+    <p>This page is designed to test the Drawing and Highlighting Chrome Extension. The extension now works with a simple click - no popup needed!</p>
+
+    <div class="test-section">
+        <h2>📝 Text Content for Highlighting</h2>
+        <p>This is a paragraph with some <span class="highlight-text">pre-highlighted text</span> to show how highlighting works. You can use the extension's highlight tool to highlight important parts of this content.</p>
+        
+        <p>Here's another paragraph with some <strong>bold text</strong> and <em>italic text</em> that you can highlight or draw over.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>🎨 Drawing Areas</h2>
+        <p>Try drawing shapes, lines, or freehand drawings in the spaces below:</p>
+        
+        <div class="image-placeholder">Draw here!</div>
+        <div class="image-placeholder">Or here!</div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔷 Shape Tools</h2>
+        <p>The extension now includes basic shape tools:</p>
+        <div class="feature-list">
+            <div class="feature-item">⬜ <strong>Rectangle</strong> - Click and drag to create rectangles</div>
+            <div class="feature-item">⭕ <strong>Circle</strong> - Click and drag to create circles</div>
+            <div class="feature-item">🔺 <strong>Triangle</strong> - Click and drag to create triangles</div>
+            <div class="feature-item">➖ <strong>Line</strong> - Click and drag to create straight lines</div>
+        </div>
+        <p><strong>Tip:</strong> Use the "Fill" button to create filled or outlined shapes!</p>
+    </div>
+
+    <div class="test-section">
+        <h2>💡 How to Use (Super Simple!)</h2>
+        <ol>
+            <li><strong>Click the small extension icon</strong> in your Chrome bookmark bar</li>
+            <li>A floating toolbar will appear on the right side of the page</li>
+            <li>Select any tool (Draw, Highlight, Text, Shapes, etc.)</li>
+            <li>Start drawing, highlighting, or creating shapes immediately!</li>
+            <li>Use the Undo button (↶) to remove your last action</li>
+            <li>Use the Clear All button (🗑️) to remove everything</li>
+            <li>Click the Close button (✕) to hide the toolbar</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Technical Details</h2>
+        <div class="code-block">
+            <strong>Extension Features:</strong><br>
+            • <strong>One-click activation</strong> - Just click the bookmark icon!<br>
+            • Drawing tool with customizable colors and sizes<br>
+            • Highlighting tool with semi-transparent effects<br>
+            • Text annotation tool<br>
+            • Eraser tool<br>
+            • Shape tools: Rectangle, Circle, Triangle, Line<br>
+            • Fill option for shapes<br>
+            • <strong>Undo functionality</strong> - Remove last action<br>
+            • Floating toolbar with small, compact buttons<br>
+            • Canvas overlay that works on any webpage<br>
+            • Responsive design that adapts to window size<br>
+            • Real-time shape preview while dragging
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>⚠️ Important Notes</h2>
+        <p class="important">The extension creates a canvas overlay on top of the webpage. Your drawings, highlights, shapes, and text are saved in memory and will persist until you clear them or refresh the page.</p>
+        
+        <p>If you encounter any issues:</p>
+        <ul>
+            <li>Make sure the extension is properly installed</li>
+            <li>Check that you're on an HTTP/HTTPS page (not chrome:// or file://)</li>
+            <li>Try refreshing the page and clicking the extension icon again</li>
+            <li>Check the browser console for any error messages</li>
+            <li>The extension should now work with a simple click!</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 Test Scenarios</h2>
+        <p>Try these scenarios to test the extension thoroughly:</p>
+        <ul>
+            <li>Click the extension icon to show the toolbar</li>
+            <li>Draw different shapes and lines with various colors</li>
+            <li>Highlight important text passages</li>
+            <li>Add text annotations in different locations</li>
+            <li>Use the eraser to remove parts of your drawings</li>
+            <li>Create filled and outlined shapes</li>
+            <li>Change colors and sizes using the toolbar buttons</li>
+            <li>Use the Undo button to remove your last action</li>
+            <li>Test all shape tools: rectangle, circle, triangle, line</li>
+            <li>Close and reopen the toolbar multiple times</li>
+        </ul>
+    </div>
+
+    <footer style="text-align: center; margin-top: 40px; color: #666;">
+        <p>Extension Test Page - Now with super simple one-click activation! 🎨✨</p>
+    </footer>
+</body>
+</html>

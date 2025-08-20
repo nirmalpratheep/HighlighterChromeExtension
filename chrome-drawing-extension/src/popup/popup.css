@@ -1,63 +1,190 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 300px;
-    height: 400px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.popup-container {
+    width: 320px;
+    min-height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
 }
 
 h1 {
-    font-size: 20px;
-    margin: 10px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.color-picker {
+h3 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tool-section, .shape-section, .settings-section, .action-section, .status-section {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.tool-section:last-child, .shape-section:last-child, .settings-section:last-child, .action-section:last-child {
+    border-bottom: none;
+}
+
+.tool-buttons, .shape-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.tool-btn, .shape-btn {
+    padding: 10px 8px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    background: white;
+    color: #495057;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
     display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
-.color-picker input {
-    width: 40%;
+.tool-btn:hover, .shape-btn:hover {
+    border-color: #667eea;
+    background-color: #f8f9ff;
+    transform: translateY(-1px);
 }
 
-.shape-selector {
+.tool-btn.active, .shape-btn.active {
+    border-color: #667eea;
+    background-color: #667eea;
+    color: white;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.setting-row {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin: 10px 0;
+    margin-bottom: 12px;
 }
 
-.shape-selector button {
-    width: 30%;
-    padding: 5px;
+.setting-row:last-child {
+    margin-bottom: 0;
+}
+
+.setting-row label {
+    color: #495057;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 60px;
+}
+
+.setting-row input[type="color"] {
+    width: 40px;
+    height: 30px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
-.shape-selector button:hover {
-    background-color: #e0e0e0;
+.setting-row input[type="range"] {
+    flex: 1;
+    margin: 0 12px;
+    height: 4px;
+    border-radius: 2px;
+    background: #e9ecef;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.setting-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.setting-row input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: none;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.setting-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
+#sizeValue {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 13px;
+    min-width: 20px;
+    text-align: center;
 }
 
 .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
-.action-buttons button {
-    width: 48%;
-    padding: 10px;
+.action-btn {
+    padding: 12px 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
-.action-buttons button:hover {
-    background-color: #e0e0e0;
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+.status-section {
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+#statusText {
+    margin: 0;
+    color: #6c757d;
+    font-size: 12px;
+    font-style: italic;
 }

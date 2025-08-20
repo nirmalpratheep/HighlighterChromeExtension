@@ -2,14 +2,19 @@
   "manifest_version": 3,
   "name": "Drawing and Highlighting Extension",
   "version": "1.0",
-  "description": "A Chrome extension to highlight, draw shapes, fill them, and erase on webpages.",
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["<all_urls>"],
+  "description": "A Chrome extension to highlight, draw shapes, add text, and erase on webpages with an overlay canvas.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "src/background.js"
   },
   "action": {
-    "default_popup": "src/popup/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
@@ -20,5 +25,11 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["src/content.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

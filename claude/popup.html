@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 250px;
+            padding: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tool-btn {
+            padding: 12px 8px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tool-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tool-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tool-icon {
+            font-size: 16px;
+        }
+        
+        .controls {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .control-group {
+            margin-bottom: 12px;
+        }
+        
+        .control-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .color-input, .range-input {
+            width: 100%;
+            height: 30px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .range-input {
+            height: 25px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 11px;
+            transition: background 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .toggle-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            margin-bottom: 10px;
+        }
+        
+        .toggle-btn:hover {
+            background: #45a049;
+        }
+        
+        .toggle-btn.active {
+            background: #f44336;
+        }
+        
+        .toggle-btn.active:hover {
+            background: #da190b;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>🎨 Drawing Tools</h2>
+    </div>
+    
+    <button id="toggleDrawing" class="toggle-btn">Enable Drawing</button>
+    
+    <div class="tools-grid">
+        <button class="tool-btn active" data-tool="pen">
+            <div class="tool-icon">✏️</div>
+            <span>Pen</span>
+        </button>
+        <button class="tool-btn" data-tool="highlighter">
+            <div class="tool-icon">🖍️</div>
+            <span>Highlighter</span>
+        </button>
+        <button class="tool-btn" data-tool="rectangle">
+            <div class="tool-icon">⬛</div>
+            <span>Rectangle</span>
+        </button>
+        <button class="tool-btn" data-tool="circle">
+            <div class="tool-icon">⭕</div>
+            <span>Circle</span>
+        </button>
+        <button class="tool-btn" data-tool="arrow">
+            <div class="tool-icon">➡️</div>
+            <span>Arrow</span>
+        </button>
+        <button class="tool-btn" data-tool="eraser">
+            <div class="tool-icon">🧹</div>
+            <span>Eraser</span>
+        </button>
+    </div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label>Color:</label>
+            <input type="color" id="colorPicker" class="color-input" value="#ff0000">
+        </div>
+        
+        <div class="control-group">
+            <label>Size: <span id="sizeValue">5</span>px</label>
+            <input type="range" id="sizePicker" class="range-input" min="1" max="20" value="5">
+        </div>
+        
+        <div class="control-group">
+            <label>Opacity: <span id="opacityValue">100</span>%</label>
+            <input type="range" id="opacityPicker" class="range-input" min="10" max="100" value="100">
+        </div>
+    </div>
+    
+    <div class="action-buttons">
+        <button id="undoBtn" class="action-btn">↶ Undo</button>
+        <button id="redoBtn" class="action-btn">↷ Redo</button>
+        <button id="clearBtn" class="action-btn">🗑️ Clear</button>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
