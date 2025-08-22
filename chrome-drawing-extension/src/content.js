@@ -429,9 +429,19 @@ if (window.drawingExtension) {
             startX = e.clientX;
             startY = e.clientY;
 
+            // Configure context for drawing or highlighting
             ctx.beginPath();
             ctx.moveTo(startX, startY);
-            console.log('Started drawing at:', startX, startY);
+            if (currentTool === 'highlight') {
+                ctx.globalAlpha = 0.25; // semi-transparent
+                ctx.lineWidth = Math.max(12, currentSize * 4);
+            } else {
+                ctx.globalAlpha = 1.0;
+                ctx.lineWidth = currentSize;
+            }
+            ctx.strokeStyle = currentColor;
+            ctx.fillStyle = currentColor;
+            console.log('Started drawing at:', startX, startY, 'tool:', currentTool);
         } else if (currentTool === 'eraser') {
             isErasing = true;
             eraseAt(e.clientX, e.clientY);
@@ -547,6 +557,7 @@ if (window.drawingExtension) {
 
     // Save highlight with semi-transparent effect
     function saveHighlight() {
+        // Save current canvas snapshot for highlight (treat like a drawing)
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         highlights.push({
             type: 'highlight',
@@ -554,9 +565,8 @@ if (window.drawingExtension) {
             color: currentColor,
             size: currentSize
         });
-        
-        // Apply semi-transparent effect to the highlight
-        applyHighlightEffect();
+    // Reset alpha so subsequent operations are not semi-transparent
+    ctx.globalAlpha = 1.0;
     }
 
     // Save drawing
@@ -568,28 +578,11 @@ if (window.drawingExtension) {
             color: currentColor,
             size: currentSize
         });
+    // Reset alpha to default
+    ctx.globalAlpha = 1.0;
     }
 
-    // Apply semi-transparent highlight effect
-    function applyHighlightEffect() {
-        // Create a temporary canvas to process the highlight
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = canvas.width;
-        tempCanvas.height = canvas.height;
-        const tempCtx = tempCanvas.getContext('2d');
-        
-        // Draw the current canvas content
-        tempCtx.drawImage(canvas, 0, 0);
-        
-        // Apply semi-transparent highlight
-        tempCtx.globalCompositeOperation = 'multiply';
-        tempCtx.fillStyle = currentColor + '40'; // 40 = 25% opacity in hex
-        tempCtx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Copy back to main canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(tempCanvas, 0, 0);
-    }
+    // Note: highlight uses semi-transparent strokes during drawing; no global fill function required.
 
     // Handle click events (for text mode)
     function handleClick(e) {
